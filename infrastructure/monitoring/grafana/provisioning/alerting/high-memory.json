@@ -1,0 +1,93 @@
+{
+  "apiVersion": 1,
+  "groups": [
+    {
+      "orgId": 1,
+      "name": "service_consumption",
+      "folder": "TradeHub-Monitoring",
+      "interval": "1m",
+      "rules": [
+        {
+          "uid": "dffpk3zhlfegwb",
+          "title": "hight_memory_usage",
+          "condition": "C",
+          "data": [
+            {
+              "refId": "A",
+              "relativeTimeRange": {
+                "from": 600,
+                "to": 0
+              },
+              "datasourceUid": "prometheus",
+              "model": {
+                "editorMode": "code",
+                "expr": "(1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100",
+                "instant": true,
+                "intervalMs": 1000,
+                "legendFormat": "__auto",
+                "maxDataPoints": 43200,
+                "range": false,
+                "refId": "A"
+              }
+            },
+            {
+              "refId": "C",
+              "relativeTimeRange": {
+                "from": 0,
+                "to": 0
+              },
+              "datasourceUid": "__expr__",
+              "model": {
+                "conditions": [
+                  {
+                    "evaluator": {
+                      "params": [
+                        80
+                      ],
+                      "type": "gte"
+                    },
+                    "operator": {
+                      "type": "and"
+                    },
+                    "query": {
+                      "params": []
+                    },
+                    "reducer": {
+                      "params": [],
+                      "type": "last"
+                    },
+                    "type": "query"
+                  }
+                ],
+                "datasource": {
+                  "type": "__expr__",
+                  "uid": "__expr__"
+                },
+                "expression": "A",
+                "intervalMs": 1000,
+                "maxDataPoints": 43200,
+                "refId": "C",
+                "type": "threshold"
+              }
+            }
+          ],
+          "dashboardUid": "central-tradehub-ops",
+          "panelId": 3,
+          "noDataState": "NoData",
+          "execErrState": "Error",
+          "for": "1m",
+          "annotations": {
+            "__dashboardUid__": "central-tradehub-ops",
+            "__panelId__": "3",
+            "description": "The service {{ $labels.job }} ({{ $labels.instance }}) is  using more memory, We reashed 80% system capacity and not responding to health checks.",
+            "summary": "Service {{ $labels.job }} is  using more memory"
+          },
+          "isPaused": false,
+          "notification_settings": {
+            "receiver": "Discord-Receivers"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,230 @@
+@baseUrl = http://localhost:3000
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbW1wM2NvanAwMDAzbGw0a3owbmc4OGQ4IiwiZW1haWwiOiJhYWFhYWFAaGh5eWtvbC5jb20iLCJ1c2VybmFtZSI6ImFhYWFhYWEiLCJpYXQiOjE3NzM0MTgxMjIsImV4cCI6MTc3NDAyMjkyMn0.TfBf9xUOrnKG_ZyUgEHhccoRibq82cU_LIthnlzfBRQ
+
+###
+# ============================
+# AUTH
+# ============================
+
+### Register
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "aaaaaa@hhyykol.com",
+  "username": "aaaaaaa",
+  "password": "password123"
+}
+
+###
+# Login
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "hahsa@kold.com",
+  "password": "password123"
+}
+
+###
+# ============================
+# USERS (JWT REQUIRED)
+# ============================
+
+### Get current user profile
+GET {{baseUrl}}/users/me
+Authorization: Bearer {{token}}
+
+###
+# Update current user profile
+PATCH {{baseUrl}}/users/me
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "bio": "testing the bio broooo",
+  "avatarUrl": "new avatar url"
+}
+
+###
+# Get current user stats
+GET {{baseUrl}}/users/me/stats
+Authorization: Bearer {{token}}
+
+###
+# Delete current user (if you add it later)
+DELETE {{baseUrl}}/users/me
+Authorization: Bearer {{token}}
+
+###
+# ============================
+# STOCKS
+# ============================
+
+### List stocks (paginated, optional filters)
+# GET {{baseUrl}}/stocks?page=1&limit=50
+# GET {{baseUrl}}/stocks?sector=Technology
+GET {{baseUrl}}/stocks
+
+###
+### Get stock by ISIN
+GET {{baseUrl}}/stocks/isin/US000000001
+
+###
+### Get stock by id (paste a stock id from list response)
+@stockId = cmmmp50zx001gmx5tjgs7dcvn
+GET {{baseUrl}}/stocks/{{stockId}}
+
+###
+### Get stock price history
+GET {{baseUrl}}/stocks/{{stockId}}/history?limit=1
+# GET {{baseUrl}}/stocks/{{stockId}}/history?limit=10&from=2025-01-01&to=2025-02-18
+
+###
+# ============================
+# PORTFOLIO (JWT REQUIRED UNLESS PUBLIC)
+# ============================
+
+### Get current user portfolio
+GET {{baseUrl}}/portfolio
+Authorization: Bearer {{token}}
+
+###
+# Get current user portfolio stats
+GET {{baseUrl}}/portfolio/stats
+Authorization: Bearer {{token}}
+
+###
+# Get current user portfolio performance (default days)
+GET {{baseUrl}}/portfolio/performance
+Authorization: Bearer {{token}}
+
+###
+# Get current user portfolio performance (custom days)
+GET {{baseUrl}}/portfolio/performance?days=30
+Authorization: Bearer {{token}}
+
+###
+# ============================
+# TRADING (JWT REQUIRED)
+# ============================
+
+### Buy stock
+POST {{baseUrl}}/trading/buy
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "stockId": "cmmp2d54w001gll64fzgak5rt",
+  "quantity": 20
+}
+
+###
+# Sell stock
+POST {{baseUrl}}/trading/sell
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "stockId": "cmmp2d54w001gll64fzgak5rt",
+  "quantity": 1
+}
+
+###
+# Get current user positions
+GET {{baseUrl}}/trading/positions
+Authorization: Bearer {{token}}
+
+###
+# Get current user trade history
+GET {{baseUrl}}/trading/history
+Authorization: Bearer {{token}}
+
+###
+# ============================
+# POSTS / FEED (JWT REQUIRED)
+# ============================
+
+### Create post
+POST {{baseUrl}}/posts
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "text": "Market is moving fast today.",
+  "visibility": "public"
+}
+
+###
+# Get feed
+GET {{baseUrl}}/posts/feed
+Authorization: Bearer {{token}}
+
+###
+# Get post by id
+@postId = cmmk17qsp0001ms6okg1zaik1
+GET {{baseUrl}}/posts/{{postId}}
+Authorization: Bearer {{token}}
+
+###
+# React to post
+POST {{baseUrl}}/posts/{{postId}}/reactions
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "type": "fr"
+}
+
+###
+# Comment on post
+POST {{baseUrl}}/posts/{{postId}}/comments
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "Nice trade idea, thanks for sharing"
+}
+
+###
+# ============================
+# SOCIAL CONNECTIONS (JWT REQUIRED)
+# ============================
+
+###
+# Target user id for follow / friend requests
+@targetUserId = REPLACE_WITH_USER_ID
+
+### Follow user
+POST {{baseUrl}}/social/follow/{{targetUserId}}
+Authorization: Bearer {{token}}
+
+###
+# Unfollow user
+DELETE {{baseUrl}}/social/unfollow/{{targetUserId}}
+Authorization: Bearer {{token}}
+
+###
+# Get my followers
+GET {{baseUrl}}/social/followers
+Authorization: Bearer {{token}}
+
+###
+# Get who I follow
+GET {{baseUrl}}/social/following
+Authorization: Bearer {{token}}
+
+###
+# Send friend request
+POST {{baseUrl}}/social/friend-request/{{targetUserId}}
+Authorization: Bearer {{token}}
+
+###
+# Accept friend request from user
+PATCH {{baseUrl}}/social/friend-request/{{targetUserId}}/accept
+Authorization: Bearer {{token}}
+
+###
+# Reject friend request from user
+PATCH {{baseUrl}}/social/friend-request/{{targetUserId}}/reject
+Authorization: Bearer {{token}}

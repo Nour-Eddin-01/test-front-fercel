@@ -1,0 +1,28 @@
+{
+  "name": "tradehub-monorepo",
+  "scripts": {
+    "start": "docker-compose up",
+    "stop": "docker-compose down",
+    "backend:shell": "docker exec -it tradehub-backend sh",
+    "db:migrate": "docker exec -it tradehub-backend npx prisma migrate dev",
+    "db:studio": "docker exec -it tradehub-backend npx prisma studio"
+  },
+  "dependencies": {
+    "@nestjs/jwt": "^11.0.2",
+    "@nestjs/passport": "^11.0.5",
+    "@nestjs/platform-socket.io": "^11.1.16",
+    "@nestjs/websockets": "^11.1.16",
+    "@prisma/client": "^7.2.0",
+    "bcrypt": "^6.0.0",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/passport-jwt": "^4.0.1",
+    "prisma": "^6.19.2"
+  }
+}

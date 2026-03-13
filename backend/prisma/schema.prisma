@@ -1,0 +1,324 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==================== USERS & AUTHENTICATION ====================
+
+model User {
+  id              String      @id @default(cuid())
+  email           String      @unique
+  username        String      @unique
+  passwordHash    String
+  
+  // Profile
+  avatarUrl       String?
+  bio             String?     @db.VarChar(250)
+  skillLevel      String     @default("beginner") // beginner, intermediate, expert
+  
+  // Financial stats
+  totalBalance    Decimal     @default(1000000) @db.Decimal(15, 2)
+  totalReturn     Decimal     @default(0) @db.Decimal(10, 2) // %
+  totalPnL        Decimal     @default(0) @db.Decimal(15, 2) // Absolute
+  
+  // Gamification
+  level           Int         @default(1)
+  xp              Int         @default(0)
+  
+  // Status
+  isOnline        Boolean     @default(false)
+  lastSeenAt      DateTime?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  // Relations
+  portfolio       Portfolio?
+  trades          Trade[]
+  positions       Position[]
+  userBadges      UserBadge[]
+  
+  sentFriends     Friend[]    @relation("initiator")
+  receivedFriends Friend[]    @relation("receiver")
+  
+  followers       Follow[]    @relation("follower")
+  following       Follow[]    @relation("following")
+  
+  sentMessages    ChatMessage[] @relation("sender")
+  notifications   Notification[]
+  leaderboard     Leaderboard?
+  
+  // Feed
+  posts           Post[]
+  postComments    PostComment[]
+  postReactions   PostReaction[]
+
+  @@index([email])
+  @@index([username])
+}
+
+// ==================== PORTFOLIO & TRADING ====================
+
+model Portfolio {
+  id              String      @id @default(cuid())
+  userId          String      @unique
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  totalValue      Decimal     @db.Decimal(15, 2)
+  cashBalance     Decimal     @db.Decimal(15, 2)
+  
+  positions       Position[]
+  trades          Trade[]
+  
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  @@index([userId])
+}
+
+model Stock {
+  id              String      @id @default(cuid())
+  isin            String      @unique
+  name            String
+  sector          String      // Banking, Tech, Energy, Telecom, Retail, etc.
+  
+  // Pricing (must use DECIMAL for financial data)
+  currentPrice    Decimal     @db.Decimal(10, 4)
+  openPrice       Decimal     @db.Decimal(10, 4)
+  highPrice       Decimal     @db.Decimal(10, 4)
+  lowPrice        Decimal     @db.Decimal(10, 4)
+  volume          BigInt
+  
+  positions       Position[]
+  trades          Trade[]
+  priceHistories  PriceHistory[]
+
+  // Feed
+  posts           Post[]
+  
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  @@index([sector])
+  @@index([isin])
+}
+
+model Position {
+  id              String      @id @default(cuid())
+  portfolioId     String
+  portfolio       Portfolio   @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  
+  userId          String
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  stockId         String
+  stock           Stock       @relation(fields: [stockId], references: [id])
+  
+  quantity        Int
+  averageCost     Decimal     @db.Decimal(10, 4)
+  currentPrice    Decimal     @db.Decimal(10, 4)
+  totalValue      Decimal     @db.Decimal(15, 2)
+  pnl             Decimal     @db.Decimal(15, 2)
+  pnlPercent      Decimal     @db.Decimal(10, 2)
+  
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  @@unique([portfolioId, stockId])
+  @@index([userId])
+}
+
+model Trade {
+  id              String      @id @default(cuid())
+  portfolioId     String
+  portfolio       Portfolio   @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  
+  userId          String
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  stockId         String
+  stock           Stock       @relation(fields: [stockId], references: [id])
+  
+  type            String      @default("buy") // buy, sell
+  quantity        Int
+  price           Decimal     @db.Decimal(10, 4)
+  totalValue      Decimal     @db.Decimal(15, 2)
+  
+  executedAt      DateTime    @default(now())
+  
+  @@index([userId])
+  @@index([portfolioId])
+  @@index([executedAt])
+  @@index([type])
+}
+
+model PriceHistory {
+  id              String      @id @default(cuid())
+  stockId         String
+  stock           Stock       @relation(fields: [stockId], references: [id], onDelete: Cascade)
+  
+  price           Decimal     @db.Decimal(10, 4)
+  timestamp       DateTime    @default(now())
+  
+  @@index([stockId, timestamp])
+}
+
+// ==================== GAMIFICATION ====================
+
+model UserBadge {
+  id              String      @id @default(cuid())
+  userId          String
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  badgeType       String      // first_trade, profit_seeker, sector_master, etc.
+  earnedAt        DateTime    @default(now())
+  
+  @@unique([userId, badgeType])
+  @@index([userId])
+}
+
+model Leaderboard {
+  id              String      @id @default(cuid())
+  userId          String      @unique
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  rank            Int
+  totalReturnPct  Decimal     @db.Decimal(10, 2)
+  totalPnL        Decimal     @db.Decimal(15, 2)
+  tradesCount     Int
+  winRate         Decimal     @db.Decimal(5, 2)
+  
+  calculatedAt    DateTime    @default(now()) @updatedAt
+  
+  @@index([rank])
+}
+
+// ==================== SOCIAL FEATURES ====================
+
+model Friend {
+  id              String      @id @default(cuid())
+  
+  initiatorId     String
+  initiator       User        @relation("initiator", fields: [initiatorId], references: [id], onDelete: Cascade)
+  
+  receiverId      String
+  receiver        User        @relation("receiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  
+  status          String      @default("pending") // pending, accepted, blocked
+  createdAt       DateTime    @default(now())
+  
+  @@unique([initiatorId, receiverId])
+  @@index([initiatorId])
+  @@index([receiverId])
+  @@index([status])
+}
+
+model Follow {
+  id              String      @id @default(cuid())
+  
+  followerId      String
+  follower        User        @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  
+  followingId     String
+  following       User        @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
+  
+  createdAt       DateTime    @default(now())
+  
+  @@unique([followerId, followingId])
+  @@index([followerId])
+  @@index([followingId])
+}
+
+model ChatMessage {
+  id              String      @id @default(cuid())
+  senderId        String
+  sender          User        @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
+  
+  room            String      // "global", "stock:ISIN", "dm:userId1:userId2"
+  content         String      @db.Text
+  
+  createdAt       DateTime    @default(now())
+  
+  // Composite index for efficient room + time ordering (for cursor pagination)
+  @@index([room, createdAt(sort: Desc)])
+  @@index([senderId])
+  // Note: Cursor pagination uses 'id' field, with secondary sort on createdAt+id for stability
+}
+
+model Notification {
+  id              String      @id @default(cuid())
+  userId          String
+  user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  type            String      // NotificationType enum: MESSAGE, SYSTEM, ALERT, TRADE_EXECUTED, BADGE_EARNED, LEVEL_UP, FRIEND_REQUEST, NEW_MESSAGE
+  content         String
+  metadata        Json?
+  
+  isRead          Boolean     @default(false)
+  createdAt       DateTime    @default(now())
+  
+  @@index([userId])
+  @@index([isRead])
+}
+
+// ==================== FEED & POSTS ====================
+
+model Post {
+  id          String      @id @default(cuid())
+  authorId    String
+  author      User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  // Content
+  text        String?     @db.Text
+  imageUrl    String?
+  linkUrl     String?
+  stockId     String?
+  stock       Stock?      @relation(fields: [stockId], references: [id])
+
+  visibility  String      @default("public") // public, followers
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  // Relations
+  comments    PostComment[]
+  reactions   PostReaction[]
+
+  @@index([authorId])
+  @@index([createdAt])
+}
+
+model PostComment {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+
+  @@index([postId])
+  @@index([authorId])
+  @@index([createdAt])
+}
+
+model PostReaction {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type      String   @default("like") // like, love, insightful, etc.
+  createdAt DateTime @default(now())
+
+  @@unique([postId, userId, type])
+  @@index([postId])
+  @@index([userId])
+}

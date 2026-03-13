@@ -1,0 +1,92 @@
+I want you to build the complete frontend for my project based on my existing backend and current project structure.
+
+Context:
+- The backend is already implemented.
+- The project structure already exists, so you must respect it and integrate into it instead of recreating everything from zero.
+- Your job is to create the frontend in a clean, maintainable, production-style way.
+- The design should feel elegant, modern, and premium, but NOT look like a generic AI-generated UI.
+- I want a more human touch: thoughtful spacing, balanced layout, subtle details, realistic hierarchy, and a product feel that looks intentionally designed by a real frontend developer.
+- Avoid overusing gradients, glowing effects, too many floating cards, or overly futuristic styles.
+- The interface should feel classy, simple, smooth, and believable as a real product.
+
+Main design direction:
+- Clean and refined UI
+- Minimal but not empty
+- Elegant typography hierarchy
+- Soft shadows, subtle borders, proper spacing
+- Consistent paddings, margins, radius, and component sizing
+- Professional color usage
+- Human and realistic design decisions
+- Focus on usability first, beauty second
+- Responsive on desktop first, then mobile/tablet
+- Smooth hover and transition effects, but keep them subtle
+- No “template-looking” or “AI-dribbble-clone” result
+
+Important implementation rules:
+- Analyze the existing project structure first before creating files
+- Reuse existing folders, conventions, naming style, and architecture
+- Do not break the existing backend integration
+- Read the backend API structure and connect the frontend correctly to existing endpoints
+- Create reusable components instead of duplicated code
+- Keep logic separated from presentation when possible
+- Use clear, maintainable, scalable code
+- Follow best practices for state management, API calls, loading states, error handling, and empty states
+- Make forms properly validated
+- Make navigation intuitive
+- Use realistic placeholder states only where needed
+- Do not hardcode fake data if real backend data can be used
+- If something is missing, leave a clear TODO comment instead of inventing backend behavior
+
+UI expectations:
+- Create a full app experience, not isolated pages
+- Build consistent layouts, navbar/sidebar/topbar if needed
+- Add proper authentication pages if the backend supports auth
+- Add dashboard pages if relevant
+- Add lists, cards, tables, detail pages, forms, modals, and feedback states where needed
+- Every screen should feel part of one coherent design system
+- The app should look polished enough to present professionally
+
+Visual style constraints:
+- Avoid too many bright colors
+- Avoid excessive animations
+- Avoid giant rounded blobs and random gradient backgrounds
+- Avoid making everything look “startup AI SaaS”
+- Prefer neutral tones with one refined accent color
+- Use whitespace intelligently
+- Make the design look trustworthy and mature
+
+User experience expectations:
+- Clear visual hierarchy
+- Good readability
+- Logical user flows
+- Buttons should feel intentional
+- Empty states, loading states, and error states should be designed, not ignored
+- Forms should be easy to use
+- Tables and financial/project data should be readable and well structured
+- Make the product feel real
+
+What I want you to do step by step:
+1. Inspect the current frontend structure and the backend API.
+2. Understand the app purpose, main entities, and flows.
+3. Propose the frontend architecture you will follow inside the existing project.
+4. Build the pages and reusable components progressively.
+5. Connect everything to the backend endpoints.
+6. Refine styling so the final result feels cohesive and human-designed.
+7. Clean up duplicated code and improve consistency.
+8. Make the result responsive and production-like.
+
+Coding style:
+- Write clean, readable, maintainable code
+- Use meaningful names
+- Keep components modular
+- Do not create unnecessary complexity
+- Respect the existing stack and dependencies already in the project
+- Prefer consistency over cleverness
+
+Before coding:
+- First, inspect and summarize the existing project structure
+- Identify the main backend routes and frontend needs
+- Then start implementing in a structured way
+
+Goal:
+Create a complete frontend that feels elegant, realistic, and professional, with a strong human touch, fully integrated with my existing backend and project structure.

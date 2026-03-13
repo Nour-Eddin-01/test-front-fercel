@@ -1,0 +1,10 @@
+{
+  "apiVersion": 1,
+  "policies": [
+    {
+      "receiver": "Discord-Receivers",
+      "group_by": ["alertname", "job"],
+      "repeat_interval": "5m"
+    }
+  ]
+}

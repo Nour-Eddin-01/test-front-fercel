@@ -1,0 +1,31 @@
+### REGISTER NEW USER
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "email": "fuck13@emadds.com",
+  "username": "fuck13",
+  "password": "testTEST123@"
+}
+
+### LOGIN (use credentials from above)
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "noridn@emadds.com",
+  "password": "testTEST123@"
+}
+
+### GET PROFILE (copy token from login response above)
+GET http://localhost:3000/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjbWw5dnNndTAwMDAwcGUwdGp4M29sMTZiIiwiZW1haWwiOiJzYW1wbGVAZW1hMS5jb20iLCJ1c2VybmFtZSI6InNhbXBsZXVzZXIxIiwiaWF0IjoxNzcwMzIxOTI0LCJleHAiOjE3NzA5MjY3MjR9.ofCe5vHiw2Hov-zniwZ419F0f5Wk608ME_Oo0APMXUg
+
+
+### GET USER PROFILE
+GET http://localhost:3000/users/profile
+Authorization: Bearer YOUR_TOKEN_HERE
+
+### GET PORTFOLIO
+GET http://localhost:3000/portfolio
+Authorization: Bearer YOUR_TOKEN_HERE
