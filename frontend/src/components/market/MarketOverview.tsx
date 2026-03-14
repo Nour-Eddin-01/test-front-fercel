@@ -1,5 +1,5 @@
 import { TrendingUp, TrendingDown, BarChart3 } from 'lucide-react'
-import { cn, formatPercent, formatNumber, formatVolume } from '@/lib/utils'
+import { cn, formatPercent, formatNumber, formatVolume } from '../../lib/utils'
 
 // Mock Moroccan market indices
 const marketIndices = [

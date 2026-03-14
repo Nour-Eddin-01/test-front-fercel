@@ -1,5 +1,5 @@
 import { Heart, MessageCircle, Share2, Bookmark, MoreHorizontal, TrendingUp, TrendingDown } from 'lucide-react'
-import { cn, formatPercent, getChangeBgColor } from '@/lib/utils'
+import { cn, formatPercent, getChangeBgColor } from '../../lib/utils'
 import { formatDistanceToNow } from 'date-fns'
 
 interface PostCardProps {

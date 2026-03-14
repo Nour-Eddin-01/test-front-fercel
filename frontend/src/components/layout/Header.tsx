@@ -1,12 +1,12 @@
-import { Search, Bell, LineChart, Users2, Moon, Sun } from 'lucide-react'
-import { useView } from '@/context/ViewContext'
-import { cn } from '@/lib/utils'
+import { Search, Bell, LineChart, Users2 } from 'lucide-react'
+import { useView } from '../../context/ViewContext'
+import { cn } from '../../lib/utils'
 
 export function Header() {
   const { viewMode, toggleViewMode } = useView()
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-card/95 px-6 backdrop-blur supports-[backdrop-filter]:bg-card/60">
+    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-card/95 px-6 backdrop-blur">
       {/* Left Section - Search */}
       <div className="flex items-center gap-4">
         <div className="relative">

@@ -10,27 +10,27 @@ import {
   Trophy,
   Wallet
 } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { useView } from '@/context/ViewContext'
+import { cn } from '../../lib/utils'
+import { useView } from '../../context/ViewContext'
 
 const socialNavItems = [
-  { icon: Home, label: 'Feed', href: '/' },
-  { icon: TrendingUp, label: 'Trending', href: '/trending' },
-  { icon: Users, label: 'Following', href: '/following' },
-  { icon: Trophy, label: 'Leaderboard', href: '/leaderboard' },
-  { icon: MessageSquare, label: 'Messages', href: '/messages' },
+  { icon: Home, label: 'Feed', href: '#' },
+  { icon: TrendingUp, label: 'Trending', href: '#' },
+  { icon: Users, label: 'Following', href: '#' },
+  { icon: Trophy, label: 'Leaderboard', href: '#' },
+  { icon: MessageSquare, label: 'Messages', href: '#' },
 ]
 
 const marketNavItems = [
-  { icon: BarChart3, label: 'Dashboard', href: '/' },
-  { icon: TrendingUp, label: 'Markets', href: '/markets' },
-  { icon: Briefcase, label: 'Portfolio', href: '/portfolio' },
-  { icon: Wallet, label: 'Positions', href: '/positions' },
+  { icon: BarChart3, label: 'Dashboard', href: '#' },
+  { icon: TrendingUp, label: 'Markets', href: '#' },
+  { icon: Briefcase, label: 'Portfolio', href: '#' },
+  { icon: Wallet, label: 'Positions', href: '#' },
 ]
 
 const bottomNavItems = [
-  { icon: Bell, label: 'Notifications', href: '/notifications' },
-  { icon: Settings, label: 'Settings', href: '/settings' },
+  { icon: Bell, label: 'Notifications', href: '#' },
+  { icon: Settings, label: 'Settings', href: '#' },
 ]
 
 export function Sidebar() {

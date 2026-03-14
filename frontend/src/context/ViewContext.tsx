@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from 'react'
-import type { ViewMode } from '@/types'
+
+type ViewMode = 'social' | 'market'
 
 interface ViewContextType {
   viewMode: ViewMode

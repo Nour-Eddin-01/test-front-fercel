@@ -1,5 +1,5 @@
 import { TrendingUp, TrendingDown, Flame } from 'lucide-react'
-import { cn, formatPercent, getChangeColor } from '@/lib/utils'
+import { cn, formatPercent, getChangeColor } from '../../lib/utils'
 
 // Mock data for Moroccan stocks
 const trendingStocks = [

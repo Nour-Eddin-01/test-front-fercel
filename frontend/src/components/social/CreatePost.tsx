@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Image, Link, TrendingUp, Send, Globe, Users } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '../../lib/utils'
 
 interface CreatePostProps {
   onSubmit?: (data: { text: string; visibility: string }) => void

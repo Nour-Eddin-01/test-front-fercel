@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react'
 import { Sidebar } from './Sidebar'
 import { Header } from './Header'
-import { Watchlist } from '@/components/watchlist/Watchlist'
-import { useView } from '@/context/ViewContext'
+import { Watchlist } from '../watchlist/Watchlist'
+import { useView } from '../../context/ViewContext'
 
 interface MainLayoutProps {
   children: ReactNode

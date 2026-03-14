@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Star, Plus, TrendingUp, TrendingDown, Search, X, Eye, MoreVertical } from 'lucide-react'
-import { cn, formatPercent, getChangeColor } from '@/lib/utils'
+import { Star, Plus, TrendingUp, TrendingDown, Search, X, Eye } from 'lucide-react'
+import { cn, formatPercent, getChangeColor } from '../../lib/utils'
 
 // Mock watchlist data - Moroccan stocks
 const mockWatchlist = [

@@ -1,5 +1,5 @@
 import { TrendingUp, TrendingDown, MoreVertical } from 'lucide-react'
-import { cn, formatCurrency, formatPercent, formatNumber } from '@/lib/utils'
+import { cn, formatCurrency, formatPercent, formatNumber } from '../../lib/utils'
 
 // Mock positions data
 const mockPositions = [

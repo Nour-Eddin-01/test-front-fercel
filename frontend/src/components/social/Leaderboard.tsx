@@ -1,5 +1,5 @@
 import { Trophy, Crown, Medal, Award } from 'lucide-react'
-import { cn, formatPercent, formatCurrency } from '@/lib/utils'
+import { cn, formatPercent, formatCurrency } from '../../lib/utils'
 
 // Mock leaderboard data
 const leaderboardData = [

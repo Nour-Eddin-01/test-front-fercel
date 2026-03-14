@@ -1,5 +1,5 @@
 import { TrendingUp, TrendingDown, Wallet, PieChart, Activity, Target } from 'lucide-react'
-import { cn, formatCurrency, formatPercent } from '@/lib/utils'
+import { cn, formatCurrency, formatPercent } from '../../lib/utils'
 
 interface PortfolioStatsProps {
   stats?: {
