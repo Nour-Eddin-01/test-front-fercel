@@ -1,0 +1,14 @@
+{
+  "name": "tradehub-scripts",
+  "type": "module",
+  "scripts": {
+    "scrape": "npx tsx moroccan-market-scraper.ts"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "@types/node": "^20.0.0"
+  }
+}
