@@ -1,6 +1,10 @@
 {
   "name": "tradehub-monorepo",
+  "type": "module",
   "scripts": {
+    "dev": "vite --config frontend/vite.config.ts frontend",
+    "build": "vite build --config frontend/vite.config.ts frontend",
+    "preview": "vite preview --config frontend/vite.config.ts frontend",
     "start": "docker-compose up",
     "stop": "docker-compose down",
     "backend:shell": "docker exec -it tradehub-backend sh",
